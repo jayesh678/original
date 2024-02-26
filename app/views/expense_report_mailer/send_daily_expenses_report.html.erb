@@ -1,0 +1,31 @@
+<!-- app/views/expense_report_mailer/send_daily_expenses_report.html.erb -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Daily Expenses Report</title>
+</head>
+<body>
+  <h1>Daily Expenses Report</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>User</th>
+        <th>Amount</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @approved_expenses.each do |expense| %>
+        <tr>
+          <td><%= expense.application_name %></td>
+          <td><%= "#{expense.user.firstname} #{expense.user.lastname}" %>
+          <td><%= expense.total_amount %></td>
+          <td><%= expense.status%></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</body>
+</html>

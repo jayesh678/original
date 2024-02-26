@@ -60,21 +60,29 @@
 <div class="form-container">
   <h1 class="text-center">Flow</h1>
 
-  <%= form_with(model: [@user, @expense, @flow], url: user_expense_flow_path(@user, @expense, @flow), method: :patch) do |form| %>
+  <%= form_with(model: [@user, @expense, @flow], url: user_expense_flow_path(@user, @expense),  method: :patch) do |form| %>
     <% if @expense.errors.any? %>
       <%= @expense.errors.full_messages.each do |msg| %>
         <div class="error"><%= msg %></div>
       <% end %>
     <% end %>
-    <div class="form-group">
-    <%= form.label :Initiator %>
-    <%= form.text_field :user_assigned_id, value: @user_assigned_name, class: 'form-control' %>
-  </div>
+ <div class="form-group">
+  <%= form.label :initiator %>
+  <%= form.text_field :initiator, value: User.find_by_id(@initiator).firstname, readonly: true, class: 'form-control' %>
+</div>
 
-  <div class="form-group">
-    <%= form.label :Approver%>
-    <%= form.text_field :assigned_user_id, value: @assigned_user_name, class: 'form-control' %>
-  </div>
+<div class="form-group">
+   <% if @expense.approved? %>
+<%= form.label :approver %>
+<%= form.text_field :approver, value: User.find_by_id(@approver).firstname, readonly: true, class: 'form-control' %>
+  <% elsif @expense.cancelled? %>
+  <%= form.label :cancelled_by%>
+    <%= form.text_field :approver, value: User.find_by_id(@cancelled_by).firstname, readonly: true, class: 'form-control' %>
+  <% end %>
+</div>
+
+
+
     <div class="form-group">
       <%= form.label :start_date %>
       <%= form.date_field :start_date, class: 'form-control' %>

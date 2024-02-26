@@ -177,6 +177,17 @@ def update_expense(success_message = 'Expense was successfully updated')
   end
 end
 
+def send_daily_expenses_report_to_super_admin
+  super_admin = User.find_by(role: Role.find_by(role_name: 'super_admin'))
+  if super_admin
+    report = Expense.approved_expenses_report
+    ExpenseMailer.approved_expenses_report(xyz@gmail.com, report).deliver_now
+    puts "Daily expenses report sent to super admin successfully."
+  else
+    puts "Super admin not found."
+  end
+end
+
 
   def expense_params
     params.require(:expense).permit(:number_of_people ,:application_name, :total_amount, :date_of_application, :subcategory_id, :expense_date, :category_id,:start_date, :end_date, :source, :destination, :business_partner_id, :amount, :tax_amount, :status, :receipt, :description, :application_number)

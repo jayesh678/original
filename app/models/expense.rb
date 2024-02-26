@@ -69,4 +69,10 @@ class Expense < ApplicationRecord
   # approver_emails = "a@b.com", 'c@d.com'
   # approver = User.where(email: approver_emails)
   # approvers.pluck(:id)
+
+
+  def self.approved_expenses_report
+    approved_expenses = Expense.where(status: :approved)
+    approved_expenses
+  end
 end

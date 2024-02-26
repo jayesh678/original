@@ -1,15 +1,32 @@
-<%= form_with(model: @flow, url: flows_path) do |form| %>
-  <%= form.label :initiator %>
-  <%= form.text_field :initiator, value: @flow.user_assigned_id %>
+<%= form_with(model: [@user, @expense, @flow], url: user_expense_flows_path(@user, @expense)) do |form| %>
 
-  <%= form.label :approver %>
-  <%= form.text_field :approver, value: @flow.assigned_user_id %>
+  <div class="form-group">
+   <%= form.label :initiator, class: "form-label" %> <span class="required">*</span>
+    <%= form.text_field :initiator, value: @initiator, readonly: true, class: 'form-control' %>
+    <% if @flow.errors[:initiator].any? %>
+                  <div class="error-message">
+                    <b><%= "Initiator" + " " +@user.errors[:initiator].join(", ") %></b>
+                  </div>
+                <% end %>
+  </div>
 
-  <%= form.label :start_date %>
-  <%= form.date_field :start_date %>
+  <div class="form-group">
+    <%= form.label :approver %>
+    <%= form.text_field :approver, value: @approver, readonly: true, class: 'form-control' %>
+  </div>
 
-  <%= form.label :end_date %>
-  <%= form.date_field :end_date %>
+  <div class="form-group">
+    <%= form.label :start_date %>
+    <%= form.date_field :start_date, class: 'form-control' %>
+  </div>
 
-  <%= form.submit 'Create Flow' %>
+  <div class="form-group">
+    <%= form.label :end_date %>
+    <%= form.date_field :end_date, class: 'form-control' %>
+  </div>
+
+  <%= form.submit 'Publish Flow', class: 'btn btn-primary' %>
+
 <% end %>
+
+   
