@@ -1,4 +1,3 @@
-# app/controllers/users/sessions_controller.rb
 class Users::SessionsController < Devise::SessionsController
     before_action :authenticate_user!, except: [:new, :create, :enter_company_code, :process_company_code]
 
@@ -7,13 +6,11 @@ class Users::SessionsController < Devise::SessionsController
       self.resource = warden.authenticate!(auth_options)
       sign_in(resource_name, resource)
       yield resource if block_given?
-      
-      # Redirect to the enter_company_code_path after successful login
+
       redirect_to enter_company_code_path
     end
     
     def enter_company_code
-      # Redirect to enter_company_code_path if the current page is not already enter_company_code_path
       redirect_to enter_company_code_path unless request.path == enter_company_code_path
     end
     
@@ -35,7 +32,6 @@ class Users::SessionsController < Devise::SessionsController
   private
 
   def valid_company_code?(user_company, company_code)
-    # Check if user_company is present and if the entered code matches the company's code
     user_company.present? && user_company.company_code == company_code
   end
   

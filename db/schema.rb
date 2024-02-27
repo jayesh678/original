@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_24_070015) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_27_141313) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -74,7 +74,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_24_070015) do
     t.float "tax_amount"
     t.date "date_of_application"
     t.string "description"
-    t.date "date"
     t.integer "number_of_people"
     t.date "expense_date"
     t.string "receipt"
@@ -92,8 +91,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_24_070015) do
     t.integer "flow_id"
     t.integer "initiator_id"
     t.integer "subcategory_id"
-    t.text "subcategory"
-    t.boolean "default"
     t.float "total_amount"
     t.string "application_name"
     t.index ["business_partner_id"], name: "index_expenses_on_business_partner_id"

@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+
+
+  namespace :api do
+    namespace :v1,defaults: { format: 'json' } do
+      post '/login', to: 'sessions#create'
+    delete '/logout', to: 'sessions#destroy'
+    get '/expenses', to: 'sessions#index'
+    get '/travelexpenses', to: 'sessions#index'
+    end
+  end
   devise_for :users, :path => 'u', controllers: {
     registrations: 'users/registrations',
     sessions: 'users/sessions'

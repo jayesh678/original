@@ -25,6 +25,7 @@ class ExpensesController < ApplicationController
 
  
   def create
+    # bindin.pry
   @subcategories = Subcategory.all
   @expense = current_user.expenses.new(expense_params)
   # flow_id = @expense.flow_id
@@ -181,7 +182,7 @@ def send_daily_expenses_report_to_super_admin
   super_admin = User.find_by(role: Role.find_by(role_name: 'super_admin'))
   if super_admin
     report = Expense.approved_expenses_report
-    ExpenseMailer.approved_expenses_report(xyz@gmail.com, report).deliver_now
+    ExpenseMailer.approved_expenses_report(super_admin, report).deliver_now
     puts "Daily expenses report sent to super admin successfully."
   else
     puts "Super admin not found."

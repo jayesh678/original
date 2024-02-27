@@ -93,9 +93,12 @@
       <%= form.date_field :end_date, class: 'form-control' %>
     </div>
     
+
+    <%if @expense.approved?%>
     <div class="actions">
       <%= form.submit 'Publish Flow', class: 'button' %>
     </div>
+    <% end %>
   <% end %>
 </div>
 
