@@ -143,13 +143,7 @@
   </div>
 </div>
 
-<div class="edit-back-links">
-  <% if can? :update, BusinessPartner %>
-    <%= link_to 'Edit', edit_vendor_master_business_partner_path(@vendor_master, @business_partner), class: 'button' %> 
-  <% end %>
 
-  <%= link_to 'Back', vendor_master_business_partners_path(@vendor_master), class: 'button' %>
-</div>
 
 </body>
 </html>

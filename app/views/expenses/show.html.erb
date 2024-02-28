@@ -66,6 +66,10 @@
       <label for="expense_status">Expense Status</label>
       <input type="text" class="form-control" id="expense_status" value="<%= @expense.status %>" readonly>
     </div>
+    <div class="form-group">
+      <label for="receipt">Receipt</label>
+      <%= image_tag @expense.receipt %>
+    </div>
   
     <div class="col-md-6 btn-back">
       <%= link_to 'Back to Expenses', user_expenses_path(@user), class: 'btn btn-secondary' %>

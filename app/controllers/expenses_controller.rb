@@ -12,7 +12,8 @@ class ExpensesController < ApplicationController
   before_action :find_expense, only: [:edit, :update, :destroy]
 
   def index
-    if current_user.super_admin?
+    if current_user.super_admin? 
+      
       @expenses = Expense.includes(:user).all
     elsif current_user.admin?
       @expenses = Expense.includes(:user).where.not(user_id: User.where(role: Role.find_by(role_name: 'super_admin')).pluck(:id))
@@ -20,7 +21,7 @@ class ExpensesController < ApplicationController
       @user = current_user
       @expenses = current_user.expenses
     end
-    @expenses = @expenses.paginate(page: params[:page], per_page: 2)
+    @expenses = @expenses.paginate(page: params[:page], per_page: 5)
   end
 
  

@@ -22,7 +22,7 @@
 # every :day, at: Time.zone.parse('06:38am') do
 set :environment, "development"
 set :output, './log/corn.log'
-every :day, :at => '19:19pm' do
+every :day, :at => '12:56pm' do
   command "echo 'hii'"
   rake 'reports:send_daily_expenses_report'
 end

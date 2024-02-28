@@ -21,11 +21,15 @@ Rails.application.routes.draw do
     # post 'process_user_code', to: 'users/sessions#process_user_code' 
   end
 
-  resources :vendor_masters do
-    resources :business_partners do
+  resources :vendor_masters #do
+  #   resources :business_partners do
+  #     get 'fetch_customer_details', on: :collection
+  #   end
+  # end
+
+  resources :business_partners do
       get 'fetch_customer_details', on: :collection
     end
-  end
  
   resources :users do
     resources :expenses do
