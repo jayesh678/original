@@ -8,7 +8,7 @@
 # set :output, "/path/to/my/cron_log.log"
 #
 # every 2.hours do
-#   command "/usr/bin/some_great_command"
+#   command "/usr/bin/some_great_command".
 #   runner "MyModel.some_method"
 #   rake "some:great:rake:task"
 # end
@@ -22,10 +22,11 @@
 # every :day, at: Time.zone.parse('06:38am') do
 set :environment, "development"
 set :output, './log/corn.log'
-every :day, :at => '12:56pm' do
-  command "echo 'hii'"
+every :weekday, :at => '14:20pm' do
+  command "echo 'hii"
   rake 'reports:send_daily_expenses_report'
 end
+
 
 
 

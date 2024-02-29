@@ -49,6 +49,12 @@
 <body>
 <div class="container">
   <div class="card mt-4">
+  
+  <% if @expense.persisted? %>
+    <h1><center> Expense </center></h1>
+  <% else%>
+  <h1><center>New Expense</center></h1>
+  <% end %>
     <div class="card-body">
       <%= form_with(model: [@user, @expense], data: { turbo: false }) do |form| %>
         <div class="row">
@@ -181,21 +187,18 @@
           </div>
         </div>
         
-        <!-- Fields for Regular Category -->
+      
         <div id="regular-fields" style="display: none;">
           <!-- Add fields specific to regular category if needed -->
         </div>
         
-        
-        <!-- Remaining Form Fields -->
-        <!-- Business Partner, Amount, Tax Amount, Receipt, Description fields -->
-        <!-- Remaining Form Fields -->
+
         <div class="row">
           <div class="col-md-3">
             <div class="form-group">
               <%= form.label :business_partner_id, "Business Partner<span class='required'>*</span>".html_safe %>
               <%= form.collection_select(:business_partner_id, @business_partners, :id, :customer_name, { prompt: 'Select Business Partner' }, { class: 'form-control' }) %>
-              <!-- Error handling -->
+             
               <% if @expense.errors[:business_partner].any? %>
                 <div class="error">
                   <b><%= "Business Partner " + @expense.errors[:business_partner].join(", ") %></b>
@@ -301,7 +304,7 @@
         <%= form.hidden_field :application_number %>
         
         <div class="form-group">
-          <%= button_tag "Save", type: "submit", name: "save_button", class: 'btn btn-primary' %>
+          
           <% if @expense.persisted? && current_user.id == @flow.assigned_user_id %>
             <%= button_to "Approve", approve_user_expense_path(@user, @expense), class: 'btn btn-primary', method: :put, data: { turbo_method: :put, confirm: 'Are you sure you want to approve this expense?' }, params: { approve_button: true, authenticity_token: form_authenticity_token } %>
             <%= button_to "Cancel", cancel_user_expense_path(@user, @expense), class: 'btn btn-primary', method: :put, data: { turbo_method: :put, confirm: 'Are you sure you want to cancel this expense?' }, params: { cancel_button: true, authenticity_token: form_authenticity_token } %>

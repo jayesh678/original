@@ -49,15 +49,18 @@
 
 <div class="container">
   <div class="row justify-content-center">
-    <div class="col-md-8"> <!-- Increased column width for better layout -->
-      <div class="card profile-box"> <!-- Added profile-box class -->
+    <div class="col-md-8"> 
+      <div class="card profile-box"> 
         <div class="card-body">
           <h1 class="mb-4"><center>Flow Information</center></h1>
           
           <div class="profile-field">
-            <p>First Name:</p>
-            <div class="editable-field" ><%= User.find_by_id(@flow.user_assigned_id).firstname%></div>
-          </div>
+  <p>First Name:</p>
+  <div class="editable-field">
+    <%= User.find_by_id(@flow.user_assigned_id) ? User.find_by_id(@flow.user_assigned_id).firstname : 'User not found' %>
+  </div>
+</div>
+
           
           <div class="profile-field">
             <p>Last Name:</p>

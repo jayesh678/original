@@ -4,7 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flows</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <style>
+    body {
+      background: linear-gradient(135deg, #5DE0E6, #004AAD);
+      min-height: 100vh;
+    }
+    .card-container {
+      width: 80%;
+      margin: 50px auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #CDFFD8, #94B9FF);
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -30,37 +44,45 @@
   </style>
 </head>
 <body>
-  <h1>Flows</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Initiator</th>  
-        <th>Approver</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Actions</th> 
-      </tr>
-    </thead>
-    <tbody>
-      <% @flows.each do |flow| %>
+  <div class="card-container">
+    <h1>Flows</h1>
+    <table>
+      <thead>
         <tr>
-          <% user_initiator = User.find_by_id(flow.user_assigned_id) %>
-          <td><%= user_initiator ? user_initiator.firstname : 'User not found' %></td>
-          <% user_approver = User.find_by_id(flow.assigned_user_id) %>
-          <td><%= user_approver ? user_approver.email : 'User not found' %></td>
-          <td><%= flow.start_date %></td>
-          <td><%= flow.end_date %></td>
-          <td>
-          
-           <%= link_to 'Show', user_expense_flow_path(@user_id, @expense_id, flow.id) %>
-           <%= link_to 'Edit',edit_user_expense_flow_path(@user_id, @expense_id, flow.id) %>
-           <%= link_to 'Delete', user_expense_flow_path(@user_id, @expense_id, flow.id), data: { turbo_method: :delete, confirm: 'Are you sure?' } %>
-
-         
-          </td>
+          <th>Initiator</th>  
+          <th>Approver</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Actions</th> 
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @flows.each do |flow| %>
+          <tr>
+            <% user_initiator = User.find_by_id(flow.user_assigned_id) %>
+            <td><%= user_initiator ? user_initiator.firstname : 'User not found' %></td>
+            <% user_approver = User.find_by_id(flow.assigned_user_id) %>
+            <td><%= user_approver ? user_approver.email : 'User not found' %></td>
+            <td><%= flow.start_date %></td>
+            <td><%= flow.end_date %></td>
+            <td>
+             <%= link_to user_expense_flow_path(@user_id, @expense_id, flow.id) do %>
+  <i class="fas fa-eye"></i> 
+<% end %>
+
+<%= link_to edit_user_expense_flow_path(@user_id, @expense_id, flow.id) do %>
+  <i class="fas fa-edit"></i> 
+<% end %>
+
+<%= link_to user_expense_flow_path(@user_id, @expense_id, flow.id), data: { turbo_method: :delete, confirm: 'Are you sure?' } do %>
+  <i class="fas fa-trash-alt"></i> 
+<% end %>
+
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>

@@ -15,8 +15,13 @@
       width: 400px;
       margin: 50px auto;
       padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .card-container {
       background: linear-gradient(135deg, #CDFFD8, #94B9FF);
       border-radius: 8px;
+      padding: 20px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     .form-input {
@@ -57,49 +62,51 @@
 </head>
 <body>
 
-<div class="form-container">
-  <h1 class="text-center">Flow</h1>
+<div class="card-container">
+  <div class="form-container">
+    <h1 class="text-center">Flow</h1>
 
-  <%= form_with(model: [@user, @expense, @flow], url: user_expense_flow_path(@user, @expense),  method: :patch) do |form| %>
-    <% if @expense.errors.any? %>
-      <%= @expense.errors.full_messages.each do |msg| %>
-        <div class="error"><%= msg %></div>
+    <%= form_with(model: [@user, @expense, @flow], url: user_expense_flow_path(@user, @expense),  method: :patch) do |form| %>
+      <% if @expense.errors.any? %>
+        <%= @expense.errors.full_messages.each do |msg| %>
+          <div class="error"><%= msg %></div>
+        <% end %>
+      <% end %>
+   <div class="form-group">
+  <%= form.label :initiator %>
+  <% initiator_user = User.find_by_id(@initiator) %>
+  <%= form.text_field :initiator, value: initiator_user ? initiator_user.firstname : 'User not found', readonly: true, class: 'form-control' %>
+</div>
+
+
+  <div class="form-group">
+    <% if @expense.approved? %>
+  <%= form.label :approver %>
+  <%= form.text_field :approver, value: User.find_by_id(@approver).firstname, readonly: true, class: 'form-control' %>
+    <% elsif @expense.cancelled? %>
+    <%= form.label :cancelled_by%>
+      <%= form.text_field :approver, value: User.find_by_id(@cancelled_by).firstname, readonly: true, class: 'form-control' %>
+    <% end %>
+  </div>
+
+      <div class="form-group">
+        <%= form.label :start_date %>
+        <%= form.date_field :start_date, class: 'form-control' %>
+      </div>
+      
+      <div class="form-group">
+        <%= form.label :end_date %>
+        <%= form.date_field :end_date, class: 'form-control' %>
+      </div>
+      
+
+      <%if @expense.approved?%>
+      <div class="actions">
+        <%= form.submit 'Publish Flow', class: 'button' %>
+      </div>
       <% end %>
     <% end %>
- <div class="form-group">
-  <%= form.label :initiator %>
-  <%= form.text_field :initiator, value: User.find_by_id(@initiator).firstname, readonly: true, class: 'form-control' %>
-</div>
-
-<div class="form-group">
-   <% if @expense.approved? %>
-<%= form.label :approver %>
-<%= form.text_field :approver, value: User.find_by_id(@approver).firstname, readonly: true, class: 'form-control' %>
-  <% elsif @expense.cancelled? %>
-  <%= form.label :cancelled_by%>
-    <%= form.text_field :approver, value: User.find_by_id(@cancelled_by).firstname, readonly: true, class: 'form-control' %>
-  <% end %>
-</div>
-
-
-
-    <div class="form-group">
-      <%= form.label :start_date %>
-      <%= form.date_field :start_date, class: 'form-control' %>
-    </div>
-    
-    <div class="form-group">
-      <%= form.label :end_date %>
-      <%= form.date_field :end_date, class: 'form-control' %>
-    </div>
-    
-
-    <%if @expense.approved?%>
-    <div class="actions">
-      <%= form.submit 'Publish Flow', class: 'button' %>
-    </div>
-    <% end %>
-  <% end %>
+  </div>
 </div>
 
 <!-- Bootstrap JS -->

@@ -113,6 +113,12 @@
       <%= form.text_field :role_id, value: "super_admin", class: "form-control", readonly: true %>
     </div>
   <% end %>
+
+  <div class="form-group">
+  <%= form.label :profile_picture %>
+  <%= form.file_field :avatar%>
+  </div>
+
     <div class="actions">
       <%= form.submit 'Update', class: "button" %>
     </div>

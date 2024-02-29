@@ -4,146 +4,111 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Business Partner Details</title>
-  <!-- Add your stylesheet link and other necessary assets -->
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <style>
     body {
       background-image: radial-gradient(#5DE0E6, #004AAD);
-      /* Gradient background color for the whole page */
       font-family: Arial, sans-serif;
-      /* Set font family */
       color: #000;
-      /* Text color */
     }
 
     .details-container {
       margin-left: 600px;
       max-width: 600px;
-      /* Set max width for details container */
       background-image: linear-gradient(to bottom right, #cdffd8, #94b9ff);
-      /* Gradient background color for the card */
       padding: 20px;
-      /* Add padding */
       border: 2px solid #000;
-      /* Black border */
       border-radius: 10px;
-      /* Rounded corners */
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      /* Add shadow */
     }
 
     .detail-box {
       margin-bottom: 20px;
-      /* Add margin bottom for spacing between detail boxes */
     }
 
     .detail-box strong {
       display: inline-block;
-      /* Make detail labels inline-block */
       width: 150px;
-      /* Set width for labels */
       font-weight: bold;
-      /* Make detail labels bold */
       vertical-align: top;
-      /* Align labels to the top */
     }
 
     input.rounded-textfield {
       width: calc(100% - 160px);
-      /* Make input fields fill remaining space */
       padding: 8px;
-      /* Add padding */
       border-radius: 50px;
-      /* Add border radius */
       border: 2px solid #000;
-      /* Black border */
       box-sizing: border-box;
-      /* Ensure padding is included in width */
+      color: #333;
     }
 
     .edit-back-links {
       text-align: center;
-      /* Center align the edit and back links */
       margin-top: 20px;
-      /* Add margin top for spacing */
     }
 
     .button {
       display: inline-block;
-      /* Make the button display inline */
       padding: 8px 20px;
-      /* Add padding */
       background-color: #000;
-      /* Button background color */
       color: #fff;
-      /* Button text color */
       text-decoration: none;
-      /* Remove underline */
       border: none;
-      /* Remove border */
       border-radius: 15px;
-      /* Add border radius for rounded corners */
       transition: background-color 0.3s ease;
-      /* Add transition for smooth color change */
       margin-right: 10px;
-      /* Add margin to separate buttons */
     }
 
     .button:hover {
       background-color: #000;
-      /* Change background color on hover */
       color: #fff;
     }
   </style>
 </head>
 <body>
 
-
-
 <div class="details-container">
-<h1><center>Business Partner Details</center></h1>
+  <h1><center>Business Partner Details</center></h1>
   <div class="detail-box">
     <strong>Customer Name:</strong>
-    <input type="text" value="<%= @business_partner.customer_name %>" class="rounded-textfield">
+    <input type="text" value="<%= @business_partner.customer_name %>" class="rounded-textfield" disabled>
   </div>
 
   <div class="detail-box">
     <strong>Customer Code:</strong>
-    <input type="text" value="<%= @business_partner.customer_code %>" class="rounded-textfield">
+    <input type="text" value="<%= @business_partner.customer_code %>" class="rounded-textfield" disabled>
   </div>
 
   <div class="detail-box">
     <strong>Corporate Number:</strong>
-    <input type="text" value="<%= @business_partner.corporate_number %>" class="rounded-textfield">
+    <input type="text" value="<%= @business_partner.corporate_number %>" class="rounded-textfield" disabled>
   </div>
 
   <div class="detail-box">
     <strong>Invoice Number:</strong>
-    <input type="text" value="<%= @business_partner.invoice_number %>" class="rounded-textfield">
+    <input type="text" value="<%= @business_partner.invoice_number %>" class="rounded-textfield" disabled>
   </div>
 
   <div class="detail-box">
     <strong>Address:</strong>
-    <input type="text" value="<%= @business_partner.address %>" class="rounded-textfield">
+    <input type="text" value="<%= @business_partner.address %>" class="rounded-textfield" disabled>
   </div>
 
   <div class="detail-box">
     <strong>Postal Code:</strong>
-    <input type="text" value="<%= @business_partner.postal_code %>" class="rounded-textfield">
+    <input type="text" value="<%= @business_partner.postal_code %>" class="rounded-textfield" disabled>
   </div>
 
   <div class="detail-box">
     <strong>Telephone Number:</strong>
-    <input type="text" value="<%= @business_partner.telephone_number %>" class="rounded-textfield">
+    <input type="text" value="<%= @business_partner.telephone_number %>" class="rounded-textfield" disabled>
   </div>
 
   <div class="detail-box">
     <strong>Bank Name:</strong>
-    <input type="text" value="<%= @business_partner.bank_name %>" class="rounded-textfield">
+    <input type="text" value="<%= @business_partner.bank_name %>" class="rounded-textfield" disabled>
   </div>
 </div>
-
-
 
 </body>
 </html>

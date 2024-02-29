@@ -93,35 +93,100 @@
       align-items: center;
     }
     
-  .page_info {
-  font-size: 14px;
-  color: #000;
-  margin-bottom: 10px; /* Add margin for spacing */
-}
+    .page_info {
+      font-size: 14px;
+      color: #000;
+      margin-bottom: 10px; /* Add margin for spacing */
+    }
     
-pagination-links a {
-  display: inline-block;
-  padding: 8px 12px;
-  text-align: center;
-  text-decoration: none;
-  background-color: #fff;
-  color: #007bff;
-  border-radius: 20px;
-  border: 2px solid #007bff;
-  transition: background-color 0.3s ease;
-  margin: 0 2px;
-}
+    .pagination-links a {
+      display: inline-block;
+      padding: 8px 12px;
+      text-align: center;
+      text-decoration: none;
+      background-color: #fff;
+      color: #007bff;
+      border-radius: 20px;
+      border: 2px solid #007bff;
+      transition: background-color 0.3s ease;
+      margin: 0 2px;
+    }
     
-.pagination-links a:hover {
-  background-color: #007bff;
-  color: #fff;
-}
-{
-    text-align: center;
-}
-
-
-
+    .pagination-links a:hover {
+      background-color: #007bff;
+      color: #fff;
+    }
+    
+    .digg_pagination {
+      cursor: default;
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .digg_pagination a,
+    .digg_pagination span,
+    .digg_pagination em {
+      padding: 0.2em 0.5em;
+      display: block;
+      float: left;
+      margin-right: 1px;
+    }
+    
+    .digg_pagination .disabled {
+      color: #999999;
+      border: 1px solid #dddddd;
+    }
+    
+    .digg_pagination .current {
+      font-style: normal;
+      font-weight: bold;
+      background: #2e6ab1;
+      color: white;
+      border: 1px solid #2e6ab1;
+    }
+    
+    .digg_pagination a {
+      text-decoration: none;
+      color: #105cb6;
+      border: 1px solid #9aafe5;
+    }
+    
+    .digg_pagination a:hover,
+    .digg_pagination a:focus {
+      color: #000033;
+      border-color: #000033;
+    }
+    
+    .digg_pagination .page_info {
+      background: #2e6ab1;
+      color: white;
+      padding: 0.4em 0.6em;
+      width: 22em;
+      margin-bottom: 0.3em;
+      text-align: center;
+    }
+    
+    .digg_pagination .page_info b {
+      color: #000033;
+      background: #6aa6ed;
+      padding: 0.1em 0.25em;
+    }
+    
+    .digg_pagination:after {
+      content: ".";
+      display: block;
+      height: 0;
+      clear: both;
+      visibility: hidden;
+    }
+    
+    * html .digg_pagination {
+      height: 1%;
+    }
+    
+    *:first-child + html .digg_pagination {
+      overflow: hidden;
+    }
   </style>
 </head>
 <body>
@@ -131,60 +196,61 @@ pagination-links a {
   <br>
 
   <div class="table-container">
-  <table>
-    <thead>
-      <tr>
-        <th>Customer Name</th>
-        <th>Customer Code</th>
-        <th>Corporate Number</th>
-        <th>Invoice Number</th>
-        <th>Bank Name</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @business_partners.each do |business_partner| %>
+    <table>
+      <thead>
         <tr>
-          <td><%= business_partner.customer_name %></td>
-          <td><%= business_partner.customer_code %></td>
-          <td><%= business_partner.corporate_number %></td>
-          <td><%= business_partner.invoice_number %></td>
-          <td><%= business_partner.bank_name %></td>
-          <td>
-            <%= link_to business_partner_path(business_partner), class: 'btn btn-primary btn-sm' do %>
-              <i class="fas fa-eye"></i> View
-            <% end %>
-            <% if can? :update, business_partner %>
-              <%= link_to edit_business_partner_path(business_partner), class: 'btn btn-secondary btn-sm' do %>
-                <i class="fas fa-edit"></i> Edit
-              <% end %>
-            <% end %>
-            <% if can? :destroy, business_partner %>
-              <%= link_to business_partner_path(business_partner), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' do %>
-                <i class="fas fa-trash-alt"></i> Delete
-              <% end %>
-            <% end %>
-          </td>
+          <th>Customer Name</th>
+          <th>Customer Code</th>
+          <th>Corporate Number</th>
+          <th>Invoice Number</th>
+          <th>Bank Name</th>
+          <th>Actions</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-  <div class="row justify-content-between">
-    <div class="col-md-auto">
-      <% if can? :create, BusinessPartner %>
-        <%= link_to new_business_partner_path, class: 'button new-business-partner-link' do %>
-          <i class="fas fa-user-plus" style="margin-right: 5px;"></i> <!-- Font Awesome icon -->
-          Add Business Partner
+      </thead>
+      <tbody>
+        <% @business_partners.each do |business_partner| %>
+          <tr>
+            <td><%= business_partner.customer_name %></td>
+            <td><%= business_partner.customer_code %></td>
+            <td><%= business_partner.corporate_number %></td>
+            <td><%= business_partner.invoice_number %></td>
+            <td><%= business_partner.bank_name %></td>
+            <td>
+              <%= link_to business_partner_path(business_partner), class: 'btn btn-primary btn-sm' do %>
+                <i class="fas fa-eye"></i> View
+              <% end %>
+              <% if can? :update, business_partner %>
+                <%= link_to edit_business_partner_path(business_partner), class: 'btn btn-secondary btn-sm' do %>
+                  <i class="fas fa-edit"></i> Edit
+                <% end %>
+              <% end %>
+              <% if can? :destroy, business_partner %>
+                <%= link_to business_partner_path(business_partner), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' do %>
+                  <i class="fas fa-trash-alt"></i> Delete
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
         <% end %>
-      <% end %>
-    </div>
-    <div class="col-md-auto">
-      <div class="digg_pagination">
-        <div class="page_info">
-          <%= page_entries_info @business_partners %>
+      </tbody>
+    </table>
+
+    <div class="row justify-content-between">
+      <div class="col-md-auto">
+        <% if can? :create, BusinessPartner %>
+          <%= link_to new_business_partner_path, class: 'button new-business-partner-link' do %>
+            <i class="fas fa-user-plus" style="margin-right: 5px;"></i> <!-- Font Awesome icon -->
+            Add Business Partner
+          <% end %>
+        <% end %>
+      </div>
+      <div class="col-md-auto">
+        <div class="digg_pagination">
+          <div class="page_info">
+            <%= page_entries_info @business_partners %>
+          </div>
+          <%= will_paginate @business_partners, :container => false %>
         </div>
-        <%= will_paginate @business_partners, :container => false %>
       </div>
     </div>
   </div>
@@ -193,62 +259,3 @@ pagination-links a {
 
 </body>
 </html>
-<style>
-.digg_pagination {
-      cursor: default;
-      text-align: center;
-      margin-top: 20px;
-    }
-    .digg_pagination a, .digg_pagination span, .digg_pagination em {
-      padding: 0.2em 0.5em;
-      display: block;
-      float: left;
-      margin-right: 1px;
-    }
-    .digg_pagination .disabled {
-      color: #999999;
-      border: 1px solid #dddddd;
-    }
-    .digg_pagination .current {
-      font-style: normal;
-      font-weight: bold;
-      background: #2e6ab1;
-      color: white;
-      border: 1px solid #2e6ab1;
-    }
-    .digg_pagination a {
-      text-decoration: none;
-      color: #105cb6;
-      border: 1px solid #9aafe5;
-    }
-    .digg_pagination a:hover, .digg_pagination a:focus {
-      color: #000033;
-      border-color: #000033;
-    }
-    .digg_pagination .page_info {
-      background: #2e6ab1;
-      color: white;
-      padding: 0.4em 0.6em;
-      width: 22em;
-      margin-bottom: 0.3em;
-      text-align: center;
-    }
-    .digg_pagination .page_info b {
-      color: #000033;
-      background: #6aa6ed;
-      padding: 0.1em 0.25em;
-    }
-    .digg_pagination:after {
-      content: ".";
-      display: block;
-      height: 0;
-      clear: both;
-      visibility: hidden;
-    }
-    * html .digg_pagination {
-      height: 1%;
-    }
-    *:first-child + html .digg_pagination {
-      overflow: hidden;
-    }
-</style>

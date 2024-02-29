@@ -10,7 +10,6 @@ class BusinessPartnersController < ApplicationController
   end
   
   def show
-   
     @business_partner = BusinessPartner.find(params[:id])
     flash[:alert] = 'Business Partner not found' if @business_partner.nil?
   end
@@ -43,33 +42,25 @@ class BusinessPartnersController < ApplicationController
   end
   
   def create
-  @business_partner = BusinessPartner.new(business_partner_params)
-  @customer_names = VendorMaster.pluck(:customer_name)
+    @business_partner = BusinessPartner.new(business_partner_params)
+    @customer_names = VendorMaster.pluck(:customer_name)
   
-  # selected_customer_name = params[:business_partner][:customer_name]
-  # vendor_info = VendorMaster.find_by(id: params[:business_partner][:vendor_master_id])
-  
-  # if vendor_info
-  #   @business_partner.customer_name = vendor_info.customer_name
-  #   @business_partner.customer_code = vendor_info.customer_code
-  #   @business_partner.corporate_number = vendor_info.corporate_number
-  #   @business_partner.invoice_number = vendor_info.invoice_number
-  # else
-  #   flash[:alert] = "Selected customer not found. Please choose a valid customer."
-  #   render :new and return
-  # end
-  
-  if @business_partner.save
-    redirect_to business_partners_path, notice: "Business partner created successfully."
-  else
-    render :new
+    if @business_partner.save
+      redirect_to business_partners_path, notice: "Business partner created successfully."
+    else
+      render :new
+    end
   end
-end
 
-  
   def fetch_customer_details
-    customer_name = params[:customer_name]
-    @customer_details = VendorMaster.find_by(customer_name: customer_name)
+    vendor_master_id = params[:vendor_master_id]
+  
+    if vendor_master_id.present?
+      @customer_details = VendorMaster.where(id: vendor_master_id)
+    else
+      flash[:error] = "Vendor Master ID is missing."
+    end
+  
     respond_to do |format|
       format.js
     end

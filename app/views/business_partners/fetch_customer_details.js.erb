@@ -1,4 +1,5 @@
-
-$("#business_partner_customer_code").val("<%= j @customer_details.customer_code %>");
-$("#business_partner_corporate_number").val("<%= j @customer_details.corporate_number %>");
-$("#business_partner_invoice_number").val("<%= j @customer_details.invoice_number %>");
+<% @customer_details.each do |customer_detail| %>
+  $("#business_partner_customer_code").val("<%= j customer_detail.customer_code %>");
+  $("#business_partner_corporate_number").val("<%= j customer_detail.corporate_number %>");
+  $("#business_partner_invoice_number").val("<%= j customer_detail.invoice_number %>");
+<% end %>

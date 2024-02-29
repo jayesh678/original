@@ -118,13 +118,6 @@
               </div>
               <% end %>
 
-              <% if devise_mapping.rememberable? %>
-              <div class="remember-me-field">
-                <%= f.check_box :remember_me, class: 'remember-me-checkbox' %>
-                <%= f.label :remember_me, class: 'remember-me-label' %>
-              </div>
-              <% end %>
-
               <div class="form-actions">
                 <%= f.submit "Log in", data: { turbo: false }, class: 'login-button' %>
               </div>

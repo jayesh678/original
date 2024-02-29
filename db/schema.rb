@@ -10,7 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_27_141313) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_29_061407) do
+  create_table "Expenses", force: :cascade do |t|
+    t.float "amount"
+    t.float "tax_amount"
+    t.date "date_of_application"
+    t.string "description"
+    t.integer "number_of_people"
+    t.date "expense_date"
+    t.string "receipt"
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "category_id", null: false
+    t.integer "business_partner_id", null: false
+    t.integer "user_id", null: false
+    t.string "application_number"
+    t.integer "status", default: 0
+    t.string "source"
+    t.string "destination"
+    t.integer "flow_id"
+    t.integer "subcategory_id"
+    t.float "total_amount"
+    t.string "application_name"
+    t.index ["business_partner_id"], name: "index_expenses_on_business_partner_id"
+    t.index ["category_id"], name: "index_expenses_on_category_id"
+    t.index ["flow_id"], name: "index_expenses_on_flow_id"
+    t.index ["subcategory_id"], name: "index_expenses_on_subcategory_id"
+    t.index ["user_id"], name: "index_expenses_on_user_id"
+  end
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -67,37 +97,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_27_141313) do
     t.string "company_uniqueid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "expenses", force: :cascade do |t|
-    t.float "amount"
-    t.float "tax_amount"
-    t.date "date_of_application"
-    t.string "description"
-    t.integer "number_of_people"
-    t.date "expense_date"
-    t.string "receipt"
-    t.date "start_date"
-    t.date "end_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "category_id", null: false
-    t.integer "business_partner_id", null: false
-    t.integer "user_id", null: false
-    t.string "application_number"
-    t.integer "status", default: 0
-    t.string "source"
-    t.string "destination"
-    t.integer "flow_id"
-    t.integer "initiator_id"
-    t.integer "subcategory_id"
-    t.float "total_amount"
-    t.string "application_name"
-    t.index ["business_partner_id"], name: "index_expenses_on_business_partner_id"
-    t.index ["category_id"], name: "index_expenses_on_category_id"
-    t.index ["flow_id"], name: "index_expenses_on_flow_id"
-    t.index ["subcategory_id"], name: "index_expenses_on_subcategory_id"
-    t.index ["user_id"], name: "index_expenses_on_user_id"
   end
 
   create_table "flows", force: :cascade do |t|
@@ -164,6 +163,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_27_141313) do
     t.integer "company_id"
     t.integer "role_id"
     t.string "user_code"
+    t.boolean "is_active", default: true
     t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -180,14 +180,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_27_141313) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "Expenses", "business_partners"
+  add_foreign_key "Expenses", "categories"
+  add_foreign_key "Expenses", "flows"
+  add_foreign_key "Expenses", "subcategories"
+  add_foreign_key "Expenses", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "business_partners", "vendor_masters"
-  add_foreign_key "expenses", "business_partners"
-  add_foreign_key "expenses", "categories"
-  add_foreign_key "expenses", "flows"
-  add_foreign_key "expenses", "subcategories"
-  add_foreign_key "expenses", "users"
   add_foreign_key "subcategories", "categories"
   add_foreign_key "travel_expenses", "categories"
   add_foreign_key "users", "companies"

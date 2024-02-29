@@ -8,40 +8,43 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      background: radial-gradient(#5DE0E6, #004AAD); /* Gradient background */
+      background: radial-gradient(#5DE0E6, #004AAD);
       margin: 0;
       padding: 20px;
     }
     .profile-box {
-      width: 600px; /* Increased width to accommodate additional content */
-      margin: 50px auto; /* Center profile box horizontally */
-      background: linear-gradient(#CDFFD8, #94B9FF); /* Gradient background for the card */
-      border-radius: 10px; /* Add border radius */
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
+      width: 600px; 
+      margin: 50px auto; 
+      background: linear-gradient(#CDFFD8, #94B9FF);
+      border-radius: 10px; 
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     }
     .profile-box .card-body {
       padding: 20px;
     }
     .profile-field {
       margin-bottom: 20px;
-      display: flex; /* Use flexbox for layout */
-      align-items: center; /* Align items vertically */
+      display: flex; 
+      align-items: center; 
     }
     .profile-field p {
-      margin: 0; /* Remove margin for paragraphs */
-      font-weight: bold; /* Make content within <p> tags bold */
-      flex: 0 0 150px; /* Set fixed width for labels */
+      margin: 0; 
+      font-weight: bold;
+      flex: 0 0 150px; 
     }
     .editable-field {
-      padding: 10px; /* Add padding to values */
-      background-color: #f8f9fa; /* Light grey background color for values */
-      border-radius: 10px; /* Add border radius for rounded corners */
-      border: 1px solid #000; /* Black border */
-      flex: 1; /* Fill remaining space */
-      margin-right: 20px; /* Add margin right */
+      padding: 10px; 
+      background-color: #f8f9fa; 
+      border-radius: 10px;
+      border: 1px solid #000;
+      flex: 1; 
+      margin-right: 20px; 
     }
     .button {
       margin-right: 10px;
+    }
+    .float-right {
+      float: right;
     }
   </style>
 </head>
@@ -49,10 +52,16 @@
 
 <div class="container">
   <div class="row justify-content-center">
-    <div class="col-md-8"> <!-- Increased column width for better layout -->
-      <div class="card profile-box"> <!-- Added profile-box class -->
+    <div class="col-md-8">
+      <div class="card profile-box"> 
         <div class="card-body">
           <h1 class="mb-4"><center>User Profile</center></h1>
+
+          <div class="float-right">
+            <% if @user.avatar.attached? %>
+              <%= image_tag url_for(@user.avatar), alt: "User Avatar", class: "round-avatar" %>
+            <% end %>
+          </div>
           
           <div class="profile-field">
             <p>First Name:</p>
@@ -79,27 +88,22 @@
             <div class="editable-field" ><%= Role.find(@user.role_id).role_name %></div>
           </div> 
 
-        <% if current_user.super_admin? %>
-          <%= link_to 'Change Password', edit_user_registration_path(@user), class: 'btn btn-dark button' %>
-          <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-dark button' %>
-        <% elsif current_user.admin? %>
-          <% if current_user == @user || !@user.super_admin? %> <!-- Admin viewing their own profile or normal user's profile -->
-          <%= link_to 'Change Password', edit_user_registration_path(@user), class: 'btn btn-dark button' %>
-          <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-dark button' %>
-        <% end %>
-        <% else %> <!-- Regular user -->
-        <% if current_user == @user %> 
-          <%= link_to 'Change Password', edit_user_registration_path(@user), class: 'btn btn-dark button' %>
-          <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-dark button' %>
-        <% end %>
-    <% end %>
-
-
-
-        
+          <% if current_user.super_admin? %>
+            <%= link_to 'Change Password', edit_user_registration_path(@user), class: 'btn btn-dark button' %>
+            <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-dark button' %>
+          <% elsif current_user.admin? %>
+            <% if current_user == @user || (!@user.admin? && !@user.super_admin?) %>
+              <%= link_to 'Change Password', edit_user_registration_path(@user), class: 'btn btn-dark button' %>
+              <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-dark button' %>
+            <% end %>
+          <% else %>
+            <% if current_user == @user %>
+              <%= link_to 'Change Password', edit_user_registration_path(@user), class: 'btn btn-dark button' %>
+              <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-dark button' %>
+            <% end %>
+          <% end %>
 
           <% if user_signed_in? %>
-            
           <% else %>
             <%= link_to "Sign up!", new_user_registration_path, class: 'btn btn-success button' %>
             <%= link_to 'Login', new_user_session_path, class: 'btn btn-info button' %>
@@ -110,7 +114,7 @@
   </div>
 </div>
 
-<!-- Bootstrap JS -->
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -14,7 +14,7 @@ class ExpenseMailer < ApplicationMailer
 
   def notify_super_admin(expense)
     @expense = expense
-    @super_admin_email = 'xyz@gmail.com' 
+    @super_admin_email = User.find_by(role: Role.find_by(role_name: 'super_admin')).email
     mail(to: @super_admin_email, subject: 'Expense Approved')
   end
   

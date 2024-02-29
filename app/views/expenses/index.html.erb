@@ -139,6 +139,7 @@ pagination-links a {
         <thead>
         <tr>
         <th>Application Number</th>
+        <th>Application Name</th>
         <th>Amount</th>
         <th>Expense Date</th>
         <th>User</th>
@@ -157,6 +158,7 @@ pagination-links a {
           <%= expense.application_number %>
         <% end %>
       </td>
+      <td><%= expense.application_name %>
       <td><%= expense.amount %></td>
       <td><%= expense.expense_date.strftime('%Y-%m-%d') %></td>
       <td><%= "#{expense.user.firstname} #{expense.user.lastname}" %></td>
@@ -182,15 +184,18 @@ pagination-links a {
       <% end %>
     <% end %>
     
-    <% if can? :destroy, Expense %>
-    <% if expense.approved? %>
-        
-    <% else %>
-      <%= link_to user_expense_path(user_id: expense.user.id, id: expense.id), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' do %>
+   <% if can? :destroy, Expense %>
+  <% if expense.approved? %>
+    <%= link_to user_expense_path(user_id: expense.user.id, id: expense.id), class: 'btn btn-danger btn-sm disabled', disabled: true do %>
+      <i class="fas fa-trash-alt"></i> Delete
+    <% end %>
+  <% else %>
+    <%= link_to user_expense_path(user_id: expense.user.id, id: expense.id), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' do %>
       <i class="fas fa-trash-alt"></i> Delete
     <% end %>
   <% end %>
 <% end %>
+
 
     
       </td>
