@@ -53,7 +53,6 @@
 </head>
 <body>
   <div class="container">
-    <h1><center>Add Business Partner</center></h1>
     <div class="row justify-content-center">
       <div class="col-md-10"> 
         <div class="card card-lg">
@@ -61,27 +60,22 @@
             <%= form_with(model: [@business_partner], local: true, data: { turbo: false }) do |form| %>
 
               <div class="row">
-                <div class="col-md-4">
-                  <div class='form-group'>
-                    <%= form.label :vendor_master %>
-                    <%= form.collection_select(:vendor_master_id, VendorMaster.all, :id, :customer_name, { prompt: "Select Vendor Master" }, { class: 'form-control customer-select', id: 'vendor-master-dropdown' }) %>
-                  </div>
-                </div>
+              </div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    <% if @business_partner.persisted? %>
-                      <%= form.label :customer_name, "Customer Name" %> 
-                      <%= form.text_field :customer_name, class: 'form-control customer-select', readonly: true, autocomplete: 'off', id: 'customer-name-field' %>
-                    <% else %>
-                      <%= form.label :customer_name, "Customer Name" %> 
-                      <%= form.text_field :customer_name, class: 'form-control customer-select', autocomplete: 'off', id: 'customer-name-field' %>
-                      <%= button_tag 'Fetch', type: 'button', class: 'btn btn-primary mt-2 fetch-button', data: { url: fetch_customer_details_business_partners_path(@business_partner) } %>
-                      <%= link_to 'Add Vendor Master', new_vendor_master_path, class: 'btn btn-primary mt-2' %>
-                    <% end %>
+                    <%= form.label :customer_name, "Customer Name" %> 
+                    <%= form.text_field :customer_name, list: 'customer_names_list', class: 'form-control customer-select', autocomplete: 'off' %>
+                    <datalist id="customer_names_list">
+                      <% @customer_names.each do |customer_name| %>
+                        <option value="<%= customer_name %>">
+                      <% end %>
+                    </datalist>
+                    <%= button_tag 'Fetch', type: 'button', class: 'btn btn-primary mt-2 fetch-button', data: { url: fetch_customer_details_business_partners_path(@business_partner) } %>
+                    <%= link_to 'Add Vendor Master', new_vendor_master_path, class: 'btn btn-primary mt-2' %>
                   </div>
                 </div>
               </div>
-
+              
               <div class="row">
                 <div class="col-md-4">
                   <div class="form-group">
@@ -194,7 +188,7 @@
     $(document).on('click', '.fetch-button', function() {
       var selectedCustomerName = $('.customer-select').val();
       var baseUrl = $('.fetch-button').data('url');
-      var url = baseUrl + '?vendor_master_id=' + selectedCustomerName;
+      var url = baseUrl + '?customer_name=' + selectedCustomerName;
 
       console.log('Fetching details for:', selectedCustomerName);
       console.log('URL:', url);
@@ -212,15 +206,8 @@
       });
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-      const vendorMasterDropdown = document.getElementById('vendor-master-dropdown');
-      const customerNameField = document.getElementById('customer-name-field');
-
-      vendorMasterDropdown.addEventListener('change', function() {
-        const selectedOption = this.options[this.selectedIndex];
-        customerNameField.value = selectedOption.text;
-      });
-    });   
+    
+    
   </script>
 </body>
 </html>

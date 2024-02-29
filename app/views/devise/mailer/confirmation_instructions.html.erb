@@ -4,4 +4,4 @@
 <p>Welcome to <%= Company.find(@user.company_id).company_name %></p>
 <p>You can confirm your account email through the link below:</p>
 
-<p><a href="<%= confirmation_url(@resource, confirmation_token: @token) %>" target="_blank">Confirm my account</a></p>
+<p><a href="<%= confirmation_url(@resource, confirmation_token: @token) %>">Confirm my account</a></p>

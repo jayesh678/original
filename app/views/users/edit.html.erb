@@ -97,7 +97,7 @@
       <% end %>
     </div>
 
-    <% unless @user.super_admin? %>
+   
     <div class="form-group">
       <%= form.label :role, class: "form-label requireded" %>
       <%= form.collection_select :role_id, Role.where(role_name: ['admin', 'user']), :id, :role_name, { prompt: "Select Role" }, { class: "form-control required" } %>
@@ -107,12 +107,6 @@
         </div>
       <% end %>
     </div>
-  <% else %>
-    <div class="form-group">
-      <%= form.label :role, class: "form-label requireded" %>
-      <%= form.text_field :role_id, value: "super_admin", class: "form-control", readonly: true %>
-    </div>
-  <% end %>
 
   <div class="form-group">
   <%= form.label :profile_picture %>

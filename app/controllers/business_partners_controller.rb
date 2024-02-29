@@ -53,19 +53,15 @@ class BusinessPartnersController < ApplicationController
   end
 
   def fetch_customer_details
-    vendor_master_id = params[:vendor_master_id]
-  
-    if vendor_master_id.present?
-      @customer_details = VendorMaster.where(id: vendor_master_id)
-    else
+    customer_name = params[:customer_name]
+      @customer_details = VendorMaster.where(customer_name: customer_name)
       flash[:error] = "Vendor Master ID is missing."
     end
   
     respond_to do |format|
       format.js
     end
-  end
-  
+
   private
   
   def business_partner_params

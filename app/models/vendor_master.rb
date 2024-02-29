@@ -1,5 +1,4 @@
 class VendorMaster < ApplicationRecord
-    has_many :business_partners, dependent: :destroy
 
     def self.fetch_customer_details(customer_name)
         customer_info = find_by(customer_name: customer_name)
