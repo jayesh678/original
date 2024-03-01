@@ -35,6 +35,7 @@ class Users::SessionsController < Devise::SessionsController
     user_company.present? && user_company.company_code == company_code
   end
   
+
   
   end
   

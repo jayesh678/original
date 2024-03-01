@@ -11,6 +11,8 @@ class User < ApplicationRecord
   after_create :set_default_role
   
   attr_accessor :company_code
+  validates :email, presence: true
+  validates :password, presence: true
   validates :firstname, presence: true
   validates :lastname, presence: true
 
@@ -48,5 +50,5 @@ class User < ApplicationRecord
   end
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, :confirmable
+      :recoverable, :rememberable, :validatable, :confirmable
 end
