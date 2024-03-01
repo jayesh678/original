@@ -70,9 +70,11 @@
                         <option value="<%= customer_name %>">
                       <% end %>
                     </datalist>
+                    <% if @business_partner.persisted? %>
+                    <% else %>
                     <%= button_tag 'Fetch', type: 'button', class: 'btn btn-primary mt-2 fetch-button', data: { url: fetch_customer_details_business_partners_path(@business_partner) } %>
-                    <%= link_to 'Add Vendor Master', new_vendor_master_path, class: 'btn btn-primary mt-2' %>
-                  </div>
+                    <% end %>
+                    </div>
                 </div>
               </div>
               

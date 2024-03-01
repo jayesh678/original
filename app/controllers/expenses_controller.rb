@@ -2,8 +2,7 @@ class ExpensesController < ApplicationController
   rescue_from CanCan::AccessDenied do |exception|
     render "shared/access_denied", status: :forbidden
   end
-  load_and_authorize_resource
-  
+  load_and_authorize_resource 
   before_action :find_user
   before_action :load_categories, only: [:new, :create, :update]
   before_action :set_subcategories, only: [:new, :create, :update]

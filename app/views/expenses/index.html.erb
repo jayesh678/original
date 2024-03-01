@@ -26,7 +26,7 @@
       border-radius: 8px;
       padding: 20px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      margin-top: 60px;
+      margin-top: 15px;
     }
 
     .table-container {
@@ -38,7 +38,6 @@
       border-collapse: collapse;
       border-spacing: 0;
       margin-bottom: 20px; /* Add spacing between table and buttons */
-     
     }
 
     th {
@@ -100,8 +99,7 @@
   .page_info {
   font-size: 14px;
   color: #000;
-  margin-bottom: 10px; /* Add margin for spacing */
-}
+  margin-bottom: 10px;
     
 pagination-links a {
   display: inline-block;
@@ -134,6 +132,16 @@ pagination-links a {
   <h1>Expenses</h1>
   <br>
 
+  <% if @expenses.present? %>
+  <label for="category-filter">Filter by Category Type:</label>
+  <select id="category-filter">
+    <option value="all">Each Category</option>
+    <option value="Travel">Travel</option>
+    <option value="Regular">Regular</option>
+  </select>
+  <br>
+
+
   <div class="table-container">
     <table>
         <thead>
@@ -149,7 +157,7 @@ pagination-links a {
         <th>Actions</th>
       </tr>
         </thead>
-      <tbody>
+      <tbody id="expense-table-body">
         <% @expenses.each do |expense| %>
           <td>
           <% if expense.user %>
@@ -184,7 +192,7 @@ pagination-links a {
       <% end %>
     <% end %>
     
-   <% if can? :destroy, Expense %>
+  <% if can? :destroy, Expense %>
   <% if expense.approved? %>
     <%= link_to user_expense_path(user_id: expense.user.id, id: expense.id), class: 'btn btn-danger btn-sm disabled', disabled: true do %>
       <i class="fas fa-trash-alt"></i> Delete
@@ -201,6 +209,7 @@ pagination-links a {
       </td>
           </tr>
         <% end %>
+        <% end %>
       </tbody>
     </table>
   </div>
@@ -213,7 +222,7 @@ pagination-links a {
   
     </div>
 
-     <div class="col-md-auto">
+    <div class="col-md-auto">
       <div class="digg_pagination">
         <div class="page_info">
           <%= page_entries_info @users %>
@@ -284,3 +293,21 @@ pagination-links a {
       overflow: hidden;
     }
 </style>
+<script>
+
+document
+  .getElementById("category-filter")
+  .addEventListener("change", function () {
+    var selectedCategory = this.value;
+    var expenseRows = document.querySelectorAll("#expense-table-body tr");
+    expenseRows.forEach(function (row) {
+      var categoryCell = row.querySelector("td:nth-child(7)");
+      var category = categoryCell.textContent.trim();
+      if (selectedCategory === "all" || category === selectedCategory) {
+        row.style.display = "";
+      } else {
+        row.style.display = "none";
+      }
+    });
+  });
+</script>

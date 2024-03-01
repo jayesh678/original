@@ -12,7 +12,7 @@ class VendorMastersController < ApplicationController
   def create
     @vendor_master = VendorMaster.new(vendor_master_params)
     if @vendor_master.save
-      redirect_to new_vendor_master_business_partner_path(@vendor_master,@business_partner)
+      redirect_to new_business_partner_path(@business_partner)
     else 
       render :new, status: :unprocessable_entity
     end
