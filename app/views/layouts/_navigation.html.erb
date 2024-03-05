@@ -1,40 +1,38 @@
-
 <% if current_user %>
-<% if session[:company_code_entered] %>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <%= link_to "SmartFlow", root_path, class: "nav-link font-weight-bold text-light "%>
-
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent"> <!-- Align all items to the right -->
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+  <% if session[:company_code_entered] %>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-3">
           <li class="nav-item">
-            <%= link_to "Users", users_path, class: "nav-link font-weight-bold text-light "%>
-          </li>
-          <% if current_user.role.role_name != "user" %>
+          <%= link_to "SmartFlow", root_path, class: "nav-link font-weight-bold text-light" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Users", users_path, class: "nav-link font-weight-bold text-light" %>
+        </li>
+        <% if current_user.role.role_name != "user" %>
           <li class="nav-item">
             <%= link_to "Business Partners", business_partners_path, class: "nav-link font-weight-bold text-light" %>
           </li>
-        <% end %>
-        
-        </ul>
-        
-        <div class="user-profile ml-3"> 
-          <%= link_to user_path(current_user), class: "nav-link user-link font-weight-bold text-white" do %> 
-            <div class="user-initials-circle" style="font-size: 18px;"> 
-              <%= current_user.firstname.first + current_user.lastname.first %>
-            </div>
+          <li class="nav-item">
+            <%= link_to "Flows", flows_path, class: "nav-link font-weight-bold text-light" %>
+          </li>
+            
+            <% end %>
+          </ul>
+          <div class="user-profile ml-3"> 
+            <%= link_to user_path(current_user), class: "nav-link user-link font-weight-bold text-white" do %> 
+              <div class="user-initials-circle" style="font-size: 18px;"> 
+                <%= current_user.firstname.first + current_user.lastname.first %>
+              </div>
+            <% end %>
+          </div>
+          <%= link_to destroy_user_session_path, method: :delete, data: { turbo_method: :delete }, class: "font-weight-bold text-light ml-3" do %> 
+            <i class="fas fa-sign-out-alt" style="vertical-align: middle; margin-right: 5px;"></i>
           <% end %>
         </div>
-        
-        <%= link_to destroy_user_session_path, method: :delete, data: { turbo_method: :delete }, class: "font-weight-bold text-light ml-3" do %> <!-- Adjust margin and make text white -->
-          <i class="fas fa-sign-out-alt" style="vertical-align: middle; margin-right: 5px;"></i>
-        <% end %>
       </div>
-    </div>
-  </nav>
+    </nav>
   <% end %>
 <% end %>
 

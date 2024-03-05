@@ -47,16 +47,11 @@
   </style>
 </head>
 <body>
-<div class="container">
+<div class="container"
   <div class="card mt-4">
-  
-  <% if @expense.persisted? %>
-    <h1><center> Expense </center></h1>
-  <% else%>
-  <h1><center>New Expense</center></h1>
-  <% end %>
     <div class="card-body">
-      <%= form_with(model: [@user, @expense], data: { turbo: false }) do |form| %>
+    <%= form_with(model: [@user, @expense], url: user_expenses_path(@user), local: true) do |form| %>
+
         <div class="row">
           <div class="col-md-3">
             <div class="form-group">
@@ -187,18 +182,21 @@
           </div>
         </div>
         
-      
+        <!-- Fields for Regular Category -->
         <div id="regular-fields" style="display: none;">
           <!-- Add fields specific to regular category if needed -->
         </div>
         
-
+        
+        <!-- Remaining Form Fields -->
+        <!-- Business Partner, Amount, Tax Amount, Receipt, Description fields -->
+        <!-- Remaining Form Fields -->
         <div class="row">
           <div class="col-md-3">
             <div class="form-group">
               <%= form.label :business_partner_id, "Business Partner<span class='required'>*</span>".html_safe %>
               <%= form.collection_select(:business_partner_id, @business_partners, :id, :customer_name, { prompt: 'Select Business Partner' }, { class: 'form-control' }) %>
-             
+              <!-- Error handling -->
               <% if @expense.errors[:business_partner].any? %>
                 <div class="error">
                   <b><%= "Business Partner " + @expense.errors[:business_partner].join(", ") %></b>
@@ -303,22 +301,27 @@
         
         <%= form.hidden_field :application_number %>
         
+        
         <div class="form-group">
-          
-          <% if @expense.persisted? && current_user.id == @flow.assigned_user_id %>
+        <%= button_tag "Save", type: "submit", name: "save_button", class: 'btn btn-primary' %>
+        <% if @flows.present? %>
+        <% @flows.each do |flow| %>
+          <% if flow.assigned_user_ids.include?(current_user.id) %>
             <%= button_to "Approve", approve_user_expense_path(@user, @expense), class: 'btn btn-primary', method: :put, data: { turbo_method: :put, confirm: 'Are you sure you want to approve this expense?' }, params: { approve_button: true, authenticity_token: form_authenticity_token } %>
             <%= button_to "Cancel", cancel_user_expense_path(@user, @expense), class: 'btn btn-primary', method: :put, data: { turbo_method: :put, confirm: 'Are you sure you want to cancel this expense?' }, params: { cancel_button: true, authenticity_token: form_authenticity_token } %>
-          <% else %>
-            <% if @expense.persisted? %>
-              <%= button_tag "Update", type: "submit", name: "create_button", class: 'btn btn-primary' %>
-            <% else %>
-              <%= button_tag "Create", type: "submit", name: "create_button", class: 'btn btn-primary' %>
+            <% break %> 
             <% end %>
-            <%= link_to "Cancel", user_expenses_path(@user), class: 'btn btn-secondary' %>
           <% end %>
-        </div>
-        
+        <% end %>
+        <% if @expense.persisted? %>
+          <%= button_tag "Update", type: "submit", name: "create_button", class: 'btn btn-primary' %>
+        <% else %>
+          <%= button_tag "Create", type: "submit", name: "create_button", class: 'btn btn-primary' %>
+        <% end %>
+        <%= link_to "Cancel", user_expenses_path(@user), class: 'btn btn-secondary' %>
+      </div>
       <% end %>
+        
     </div>
   </div>
 </div>
@@ -338,42 +341,72 @@
 
 
   <script>
-  $('#category-select').change(function() {
-    var selectedCategory = $(this).val();
-  
-    if (selectedCategory === '1') {
-      $('#regular-fields').show();
-      $('#travel-fields').hide();
-    } else if (selectedCategory === '2') {
-      $('#regular-fields').hide();
-      $('#travel-fields').show();
-    } else {
-      $('#regular-fields').hide();
-      $('#travel-fields').hide();
+  $(document).ready(function() {
+    $('#category-select').change(function() {
+        var selectedCategory = $(this).val();
+
+        if (selectedCategory === '1') {
+            $('#regular-fields').show();
+            $('#travel-fields').hide();
+        } else if (selectedCategory === '2') {
+            $('#regular-fields').hide();
+            $('#travel-fields').show();
+        } else {
+            $('#regular-fields').hide();
+            $('#travel-fields').hide();
+        }
+    });
+
+    // Handle subcategory selection based on the selected category type
+    $('#category-select').change(function() {
+        var selectedCategory = $(this).val();
+        var subcategorySelect = $('#subcategory-select');
+
+        if (selectedCategory === '1') {
+            // Populate regular subcategories
+            subcategorySelect.empty().append('<option value="">Select Subcategory</option>');
+            <% @regular_subcategories.each do |subcategory| %>
+            subcategorySelect.append('<option value="<%= subcategory.id %>"><%= subcategory.name %></option>');
+            <% end %>
+        } else if (selectedCategory === '2') {
+            // Populate travel subcategories
+            subcategorySelect.empty().append('<option value="">Select Subcategory</option>');
+            <% @travel_subcategories.each do |subcategory| %>
+            subcategorySelect.append('<option value="<%= subcategory.id %>"><%= subcategory.name %></option>');
+            <% end %>
+        } else {
+            subcategorySelect.empty().append('<option value="">Select Subcategory</option>');
+        }
+    });
+
+    // Function to show/hide travel fields based on category
+    function showHideTravelFields() {
+        var selectedCategory = $('#category-select').val();
+        if (selectedCategory === '2') {
+            $('#travel-fields').show();
+        } else {
+            $('#travel-fields').hide();
+        }
     }
-  });
-  
-  // Handle subcategory selection based on the selected category type
-  $('#category-select').change(function() {
-    var selectedCategory = $(this).val();
-    var subcategorySelect = $('#subcategory-select');
-  
-    if (selectedCategory === '1') {
-      // Populate regular subcategories
-      subcategorySelect.empty().append('<option value="">Select Subcategory</option>');
-      <% @regular_subcategories.each do |subcategory| %>
-        subcategorySelect.append('<option value="<%= subcategory.id %>"><%= subcategory.name %></option>');
-      <% end %>
-    } else if (selectedCategory === '2') {
-      // Populate travel subcategories
-      subcategorySelect.empty().append('<option value="">Select Subcategory</option>');
-      <% @travel_subcategories.each do |subcategory| %>
-        subcategorySelect.append('<option value="<%= subcategory.id %>"><%= subcategory.name %></option>');
-      <% end %>
-    } else {
-      subcategorySelect.empty().append('<option value="">Select Subcategory</option>');
-    }
-  });
+
+    // Show/hide travel fields on page load
+    showHideTravelFields();
+
+    // Show/hide travel fields whenever category selection changes
+    $('#category-select').change(function() {
+        showHideTravelFields();
+    });
+
+    // Function to handle form submission
+    $('form').submit(function(event) {
+        // Prevent form submission if there are validation errors
+        if ($(this).find('.error').length > 0) {
+            event.preventDefault();
+            // Show travel fields if the selected category requires them
+            showHideTravelFields();
+        }
+    });
+});
 
     function calculateTax() {
       var amount = parseFloat($('#amount-field').val());

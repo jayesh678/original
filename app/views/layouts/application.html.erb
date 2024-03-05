@@ -23,12 +23,10 @@
   <%= render 'layouts/navigation' %>
 
   <% flash.each do |type, message| %>
-    <div class="alert <%= flash_class(type) %>">
+    <div class="alert <%= flash_class(type) %>" style="position: fixed; top: 20px; left: 20px;">
       <%= message %>
     </div>
   <% end %>
-
-  <!-- Your content goes here -->
 
   <%= yield %>
 

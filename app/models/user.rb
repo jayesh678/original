@@ -11,6 +11,7 @@ class User < ApplicationRecord
   after_create :set_default_role
   
   attr_accessor :company_code
+  attr_accessor :company_name
   validates :email, presence: true
   validates :password, presence: true
   validates :firstname, presence: true

@@ -55,20 +55,19 @@
           <h1 class="mb-4"><center>Flow Information</center></h1>
           
           <div class="profile-field">
-  <p>First Name:</p>
-  <div class="editable-field">
-    <%= User.find_by_id(@flow.user_assigned_id) ? User.find_by_id(@flow.user_assigned_id).firstname : 'User not found' %>
-  </div>
-</div>
+            <p>Initiator First Name:</p>
+            <div class="editable-field">
+              <%= User.find_by_id(@flow.user_assigned_id) ? User.find_by_id(@flow.user_assigned_id).firstname : 'User not found' %>
+            </div>
+          </div>
 
-          
           <div class="profile-field">
-            <p>Last Name:</p>
-            <div class="editable-field" ><%= User.find_by_id(@flow.assigned_user_id).firstname %></div>
+            <p>Approver First Name:</p>
+            <div class="editable-field" ><%= User.find_by_id(@flow.assigned_user_id) ? User.find_by_id(@flow.assigned_user_id).firstname : 'User not found' %></div>
           </div>
           
           <div class="profile-field">
-            <p> Start date:</p>
+            <p>Start date:</p>
             <div class="editable-field" ><%= @flow.start_date %></div>
           </div>
 

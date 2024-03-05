@@ -54,14 +54,13 @@
 <body>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-md-10"> 
+      <div class="col-md-10"> <!-- Adjust the column width -->
         <div class="card card-lg">
           <div class="card-body">
-            <%= form_with(model: [@business_partner], local: true, data: { turbo: false }) do |form| %>
+            <%= form_with(model: [@vendor_master, @business_partner], local: true, data: { turbo: false }) do |form| %>
 
               <div class="row">
-              </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <div class="form-group">
                     <%= form.label :customer_name, "Customer Name" %> 
                     <%= form.text_field :customer_name, list: 'customer_names_list', class: 'form-control customer-select', autocomplete: 'off' %>
@@ -70,11 +69,9 @@
                         <option value="<%= customer_name %>">
                       <% end %>
                     </datalist>
-                    <% if @business_partner.persisted? %>
-                    <% else %>
                     <%= button_tag 'Fetch', type: 'button', class: 'btn btn-primary mt-2 fetch-button', data: { url: fetch_customer_details_business_partners_path(@business_partner) } %>
-                    <% end %>
-                    </div>
+                    <%= link_to 'Add Vendor Master', new_vendor_master_path, class: 'btn btn-primary mt-2' %>
+                  </div>
                 </div>
               </div>
               
@@ -177,6 +174,7 @@
                   </div>
                 </div>
               </div>
+             
             <% end %>
           </div>
         </div>
@@ -207,9 +205,6 @@
         }
       });
     });
-
-    
-    
   </script>
 </body>
 </html>

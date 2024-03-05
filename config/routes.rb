@@ -23,13 +23,17 @@
     resources :business_partners do
       get 'fetch_customer_details', on: :collection
     end
+
+
     resources :users do
       resources :expenses do
         put 'approve', on: :member
         put 'cancel', on: :member
-        resources :flows
       end
-    end    
+    end
+
+    resources :flows
+    
 
     resources :categories
 
