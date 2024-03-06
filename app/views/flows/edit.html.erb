@@ -72,12 +72,12 @@
           <div class="error"><%= msg %></div>
         <% end %>
       <% end %>
-      <div class="form-group">
-        <%= form.label :user_assigned_id %>
-        <% user_assigned = User.find_by_id(@flow.user_assigned_id) %>
-        <%= form.text_field :user_assigned_id, value: user_assigned ? user_assigned.firstname : 'User not found', readonly: true, class: 'form-control' %>
-      </div>
-
+     <div class="form-group">
+    <%= form.label :user_assigned_id %>
+    <% user_assigned = User.find_by_id(@flow.user_assigned_id) %>
+    <%= form.text_field :user_assigned_id, value: user_assigned ? user_assigned.firstname : 'User not found', readonly: true, class: 'form-control' %>
+    <%= form.hidden_field :user_assigned_id, value: @flow.user_assigned_id %> 
+  </div>
       <div class="form-group">
   <%= form.label :assigned_user_id %>
   <%= form.select :assigned_user_id, options_for_select(@users_for_dropdown), {}, class: 'form-control' %>

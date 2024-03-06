@@ -47,11 +47,10 @@
   </style>
 </head>
 <body>
-<div class="container"
+<div class="container">
   <div class="card mt-4">
     <div class="card-body">
-    <%= form_with(model: [@user, @expense], url: user_expenses_path(@user), local: true) do |form| %>
-
+      <%= form_with(model: [@user, @expense], data: { turbo: false }) do |form| %>
         <div class="row">
           <div class="col-md-3">
             <div class="form-group">
@@ -302,24 +301,22 @@
         <%= form.hidden_field :application_number %>
         
         
+              
         <div class="form-group">
-        <%= button_tag "Save", type: "submit", name: "save_button", class: 'btn btn-primary' %>
-        <% if @flows.present? %>
-        <% @flows.each do |flow| %>
-          <% if flow.assigned_user_ids.include?(current_user.id) %>
+          
+          <% if @expense.persisted? && current_user.id == @expense.flow.assigned_user_id %>
             <%= button_to "Approve", approve_user_expense_path(@user, @expense), class: 'btn btn-primary', method: :put, data: { turbo_method: :put, confirm: 'Are you sure you want to approve this expense?' }, params: { approve_button: true, authenticity_token: form_authenticity_token } %>
             <%= button_to "Cancel", cancel_user_expense_path(@user, @expense), class: 'btn btn-primary', method: :put, data: { turbo_method: :put, confirm: 'Are you sure you want to cancel this expense?' }, params: { cancel_button: true, authenticity_token: form_authenticity_token } %>
-            <% break %> 
+          <% else %>
+            <% if @expense.persisted? %>
+              <%= button_tag "Update", type: "submit", name: "create_button", class: 'btn btn-primary' %>
+            <% else %>
+              <%= button_tag "Create", type: "submit", name: "create_button", class: 'btn btn-primary' %>
             <% end %>
+            <%= link_to "Cancel", user_expenses_path(@user), class: 'btn btn-secondary' %>
           <% end %>
-        <% end %>
-        <% if @expense.persisted? %>
-          <%= button_tag "Update", type: "submit", name: "create_button", class: 'btn btn-primary' %>
-        <% else %>
-          <%= button_tag "Create", type: "submit", name: "create_button", class: 'btn btn-primary' %>
-        <% end %>
-        <%= link_to "Cancel", user_expenses_path(@user), class: 'btn btn-secondary' %>
-      </div>
+        </div>
+        
       <% end %>
         
     </div>

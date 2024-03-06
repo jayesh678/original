@@ -1,5 +1,6 @@
 class Company < ApplicationRecord
   has_many :users, dependent: :destroy
+  has_many :flows
   before_create :generate_company_code
   before_create :generate_uniqueid
   # attr_accessor :company_code

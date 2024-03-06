@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_04_181857) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_06_023645) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -92,9 +92,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_181857) do
     t.float "total_amount"
     t.string "application_name"
     t.integer "flow_id", null: false
+    t.integer "initiator_id"
     t.index ["business_partner_id"], name: "index_expenses_on_business_partner_id"
     t.index ["category_id"], name: "index_expenses_on_category_id"
     t.index ["flow_id"], name: "index_expenses_on_flow_id"
+    t.index ["initiator_id"], name: "index_expenses_on_initiator_id"
     t.index ["subcategory_id"], name: "index_expenses_on_subcategory_id"
     t.index ["user_id"], name: "index_expenses_on_user_id"
   end
@@ -107,6 +109,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_181857) do
     t.date "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "company_id", null: false
+    t.index ["company_id"], name: "index_flows_on_company_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -188,6 +192,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_181857) do
   add_foreign_key "expenses", "flows"
   add_foreign_key "expenses", "subcategories"
   add_foreign_key "expenses", "users"
+  add_foreign_key "expenses", "users", column: "initiator_id"
+  add_foreign_key "flows", "companies"
   add_foreign_key "subcategories", "categories"
   add_foreign_key "travel_expenses", "categories"
   add_foreign_key "users", "companies"

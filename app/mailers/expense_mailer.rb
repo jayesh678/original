@@ -12,10 +12,11 @@ class ExpenseMailer < ApplicationMailer
   end
 
 
-  def notify_super_admin(expense)
+  def notify_super_admin(expense, current_user)
+    # binding.pry
     @expense = expense
-    @super_admin_email = User.find_by(role: Role.find_by(role_name: 'super_admin')).email
-    mail(to: @super_admin_email, subject: 'Expense Approved')
+    @super_admin = User.find_by(role: Role.find_by(role_name: 'super_admin'), company_id: current_user.company_id)&.email
+    mail(to: @super_admin, subject: 'Expense Approved')
   end
   
 end

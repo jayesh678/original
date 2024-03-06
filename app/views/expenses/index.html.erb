@@ -173,11 +173,9 @@ pagination-links a {
             <td><%= expense.user.role.role_name %></td>
             <td><%= expense.category.category_type %></td>
             <td>
-              <% if expense.status == 'approved' && expense.flow.present? && current_user.email == User.find(expense.flow.assigned_user_id).email %>
-                <%= link_to "Edit Flow", edit_user_expense_flow_path(user_id: expense.user_id, expense_id: expense.id, id: expense.flow.id) %>
-              <% else %>
+              
                 <%= expense.status %>
-              <% end %>
+              
             </td>
             <td>
               <% if can? :read, Expense %>
